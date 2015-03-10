@@ -1,0 +1,5 @@
+/* Hidden form that is essentially just a submit button triggered by JS */
+#logoutDummyForm {
+	display: hidden;
+	position: absolute;
+}
