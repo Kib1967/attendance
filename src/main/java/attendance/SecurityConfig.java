@@ -25,15 +25,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         
         http
 	        .authorizeRequests()
-	        .antMatchers("/css/**").permitAll() 
-	        .anyRequest().authenticated()
-	        .and()
-	    .formLogin()
-	        .loginPage("/login")
-	        .permitAll()
-	        .and()
-	    .logout()
-	        .permitAll()
-	        .logoutSuccessUrl("/login?logout");
+	            .antMatchers("/css/**").permitAll() 
+	            .antMatchers("/manager/**").hasRole("MANAGER") 
+	            .antMatchers("/admin/**").hasRole("ADMIN") 
+	            .anyRequest().authenticated() 
+	            .and()
+	        .formLogin()
+	            .loginPage("/login")
+	            .permitAll()
+	            .and()
+	        .logout()
+	            .permitAll()
+	            .logoutSuccessUrl("/login?logout");
     }
 }

@@ -3,11 +3,11 @@ package attendance;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Locale;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
@@ -33,8 +33,6 @@ import attendance.repository.EmployeeRepository;
 @EnableAutoConfiguration
 public class Application extends SpringBootServletInitializer {
 	
-	private static final Logger LOGGER = LoggerFactory.getLogger(Application.class);
-
 	@Bean
 	CommandLineRunner init() {
 		return (evt) -> loadData();
@@ -64,39 +62,39 @@ public class Application extends SpringBootServletInitializer {
 	private AttendanceItemRepository attendanceItemRepository;
 	
 	@Value("${spring.profiles.active:}")
-    private String activeProfiles;
+    private String activeProfilesAsStr;
 	
 	private void loadData() {
 		
-		LOGGER.warn("loadData()");
+		Collection<String> activeProfiles = Arrays.asList(activeProfilesAsStr.split(",")); //.forEach((item) -> item.trim());
 		
 		// Can't find a better way to inject some data that I want only when I want to do interactive testing of the
 		// application, but not to get in the way when I do testing
-		if( activeProfiles.equals( "interactive" )) {
-	        Employee goldan7n = employeeRepository.save(new Employee("goldan7n", "Andy Goldsworthy", "goldan7n@gmail.com", null));
-	        Employee rowesigl = employeeRepository.save(new Employee("rowesigl", "Simon Rowe", "rowesigl@gmail.com", null));
-	        Employee z001rfah = employeeRepository.save(new Employee("z001rfah", "Andrew McKibbin", "andymckibbin@yahoo.co.uk", goldan7n));
+		if( activeProfiles.contains( "interactive" )) {
+	        Employee goldsworthy = employeeRepository.save(new Employee("goldsworthy", "Andy Goldsworthy", "goldan7n@gmail.com", null));
+	        Employee rowe = employeeRepository.save(new Employee("rowe", "Simon Rowe", "rowesigl@gmail.com", null));
+	        Employee mckibbin = employeeRepository.save(new Employee("mckibbin", "Andrew McKibbin", "andymckibbin@yahoo.co.uk", goldsworthy));
 	        
-			attendanceItemRepository.save(new AttendanceItem(z001rfah,
+			attendanceItemRepository.save(new AttendanceItem(mckibbin,
 					AttendanceItemStatus.APPROVED,
 					AttendanceItemType.ANNUAL_LEAVE,
 					convert( LocalDate.of(2015, 1, 1)),
 					convert( LocalDate.of(2015, 1, 1))));
-			attendanceItemRepository.save(new AttendanceItem(z001rfah,
+			attendanceItemRepository.save(new AttendanceItem(mckibbin,
 					AttendanceItemStatus.APPROVED,
-					AttendanceItemType.ANNUAL_LEAVE,
+					AttendanceItemType.BUSINESS_TRAVEL,
 					convert( LocalDate.of(2015, 3, 5)),
 					convert( LocalDate.of(2015, 3, 10))));
-			attendanceItemRepository.save(new AttendanceItem(z001rfah,
+			attendanceItemRepository.save(new AttendanceItem(mckibbin,
 					AttendanceItemStatus.REQUESTED,
-					AttendanceItemType.ANNUAL_LEAVE,
+					AttendanceItemType.TRAINING,
 					convert( LocalDate.of(2015, 4, 5)),
 					convert( LocalDate.of(2015, 4, 10))));
-			attendanceItemRepository.save(new AttendanceItem(z001rfah,
+			attendanceItemRepository.save(new AttendanceItem(mckibbin,
 					AttendanceItemStatus.REJECTED,
-					AttendanceItemType.ANNUAL_LEAVE,
+					AttendanceItemType.SICK,
 					convert( LocalDate.of(2015, 5, 5)),
-					convert( LocalDate.of(2015, 5, 10))));
+					convert( LocalDate.of(2015, 5, 5))));
 		}
 	}
 	

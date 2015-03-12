@@ -1,12 +1,14 @@
 buildscript {
     repositories {
         maven { url "https://repo.spring.io/libs-release" }
-        mavenLocal()
         mavenCentral()
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.2.1.RELEASE")
-        classpath 'org.cloudfoundry:cf-gradle-plugin:1.0.4'
+        // Provides tasks for running via Gradle
+        classpath("org.springframework.boot:spring-boot-gradle-plugin")
+        
+        // Provides tasks for deploying to PWS via Gradle
+        classpath 'org.cloudfoundry:cf-gradle-plugin'
     }
 }
 
@@ -25,10 +27,13 @@ repositories {
 }
 
 configurations {
+    // We're using embedded Jetty server, not Tomcat
     compile.exclude module: 'spring-boot-starter-tomcat'
 }
 
 dependencies {
+    // Not sure all this stuff DEFINITELY has to be in this configuration, but haven't had time
+    // to experiment
     compile(
         'org.springframework.boot:spring-boot-starter-web',
         'org.springframework.boot:spring-boot-starter-actuator',
@@ -59,42 +64,49 @@ dependencies {
     runtime 'org.postgresql:postgresql:9.4-1201-jdbc41'
 }
 
-/* Change context path (base url). otherwise defaults to name of project */
+// Change context path (base url). otherwise defaults to name of project
 jettyRunWar.contextPath = ''
 
+test {
+  System.env.SPRING_PROFILES_ACTIVE = 'test'
+}
+
 bootRun {
-    if ( project.hasProperty('args') ) {
+    // For passing arguments to the application: gradlew bootRun -Pargs="some list of stuff like this"
+    if(project.hasProperty 'args') {
         args project.args.split('\\s+')
+    }
+    
+    // For remote debugging: gradlew bootRun -Pdebug
+    if(project.hasProperty 'debug') {
+        jvmArgs = ['-Xdebug', '-Xrunjdwp:server=y,transport=dt_socket,address=4000,suspend=y']
     }
 }
 
-//bootRun {
-//    jvmArgs = ['-Xdebug', '-Xrunjdwp:server=y,transport=dt_socket,address=4000,suspend=y']
-//}
-
-  cloudfoundry {
-      target = 'https://api.run.pivotal.io'
-      space = 'development'
-      file = file('build/libs/attendance.war')
-      uri = 'attendance.cfapps.io'
-      memory = 2048
-      instances = 1
-      env = [
-          'SPRING_PROFILES_ACTIVE': 'prod'
-      ]
-      services {
-          'mail' {
-              label = 'SendGrid'
-              plan = 'Free Package'
-              bind = true
-          }
-          'sql' {
-              label = 'ElephantSQL'
-              plan = 'Tiny Turtle'
-              bind = true
-          }
-      }
+// User credentials should be in $GRADLE_USER_HOME/gradle.properties
+cloudfoundry {
+    target = 'https://api.run.pivotal.io'
+    space = 'development'
+    file = file('build/libs/attendance.war')
+    uri = 'attendance.cfapps.io'
+    memory = 2048
+    instances = 1
+    env = [
+        'SPRING_PROFILES_ACTIVE': 'prod'
+    ]
+    services {
+        'mail' {
+            label = 'SendGrid'
+            plan = 'Free Package'
+            bind = true
+        }
+        'sql' {
+            label = 'ElephantSQL'
+            plan = 'Tiny Turtle'
+            bind = true
+        }
+    }
       
-      // Give me time to check the configuration above
-      startApp = false
-  }
+    // Give me time to check the configuration above
+    startApp = false
+ }

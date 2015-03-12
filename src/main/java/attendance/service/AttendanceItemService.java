@@ -5,13 +5,13 @@ import java.util.Optional;
 import javax.mail.MessagingException;
 
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailAuthenticationException;
 import org.springframework.stereotype.Component;
 
 import attendance.ApprovalRequestNotSentException;
 import attendance.EmployeeNotFoundException;
+import attendance.Loggers;
 import attendance.ManagerNotFoundException;
 import attendance.model.AttendanceItem;
 import attendance.model.AttendanceItemStatus;
@@ -21,7 +21,7 @@ import attendance.repository.AttendanceItemRepository;
 @Component
 public class AttendanceItemService {
 	
-	private static final Logger LOGGER = LoggerFactory.getLogger(AttendanceItemService.class);
+	private static final Logger LOGGER = Loggers.SERVICE_LOGGER;
 	
 	@Autowired
 	private EmployeeService employeeService;
