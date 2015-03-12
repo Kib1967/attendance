@@ -73,12 +73,12 @@ test {
 
 bootRun {
     // For passing arguments to the application: gradlew bootRun -Pargs="some list of stuff like this"
-    if(project.hasProperty 'args') {
+    if(project.hasProperty('args')) {
         args project.args.split('\\s+')
     }
     
     // For remote debugging: gradlew bootRun -Pdebug
-    if(project.hasProperty 'debug') {
+    if(project.hasProperty('debug')) {
         jvmArgs = ['-Xdebug', '-Xrunjdwp:server=y,transport=dt_socket,address=4000,suspend=y']
     }
 }
