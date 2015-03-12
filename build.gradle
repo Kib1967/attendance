@@ -1,14 +1,15 @@
 buildscript {
     repositories {
         maven { url "https://repo.spring.io/libs-release" }
+        mavenLocal()
         mavenCentral()
     }
     dependencies {
         // Provides tasks for running via Gradle
-        classpath("org.springframework.boot:spring-boot-gradle-plugin")
+        classpath 'org.springframework.boot:spring-boot-gradle-plugin:1.2.1.RELEASE'
         
         // Provides tasks for deploying to PWS via Gradle
-        classpath 'org.cloudfoundry:cf-gradle-plugin'
+        classpath 'org.cloudfoundry:cf-gradle-plugin:1.0.4'
     }
 }
 
@@ -68,7 +69,7 @@ dependencies {
 jettyRunWar.contextPath = ''
 
 test {
-  System.env.SPRING_PROFILES_ACTIVE = 'test'
+    environment['SPRING_PROFILES_ACTIVE'] = 'test'
 }
 
 bootRun {
