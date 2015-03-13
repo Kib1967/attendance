@@ -43,7 +43,7 @@ public class ManagerController {
     	String gid = principal.getName();
     	Optional<Employee> manager = employeeService.get(gid);
     	
-		LOGGER.debug("Called list pending approvals for " + gid + ", retrieved " + manager.get());
+		LOGGER.debug("Called list pending approvals for " + gid + ", retrieved " + manager);
 		
     	if( manager.isPresent()) {
 			Collection<Employee> subordinates = employeeService.getSubordinates(manager.get());

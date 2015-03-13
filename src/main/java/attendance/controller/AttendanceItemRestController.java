@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import attendance.EmployeeNotFoundException;
 import attendance.model.AttendanceItem;
 import attendance.model.Employee;
 import attendance.repository.AttendanceItemRepository;
 import attendance.repository.EmployeeRepository;
+import attendance.service.EmployeeNotFoundException;
 
 @RestController
 @RequestMapping("/{employeeId}/attendanceItem")

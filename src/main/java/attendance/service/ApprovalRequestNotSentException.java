@@ -1,4 +1,4 @@
-package attendance;
+package attendance.service;
 
 public class ApprovalRequestNotSentException extends BusinessLayerException {
 

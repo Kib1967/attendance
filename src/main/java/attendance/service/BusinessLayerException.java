@@ -1,4 +1,4 @@
-package attendance;
+package attendance.service;
 
 public class BusinessLayerException extends Exception {
 

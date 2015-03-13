@@ -9,10 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailAuthenticationException;
 import org.springframework.stereotype.Component;
 
-import attendance.ApprovalRequestNotSentException;
-import attendance.EmployeeNotFoundException;
 import attendance.Loggers;
-import attendance.ManagerNotFoundException;
 import attendance.model.AttendanceItem;
 import attendance.model.AttendanceItemStatus;
 import attendance.model.Employee;
