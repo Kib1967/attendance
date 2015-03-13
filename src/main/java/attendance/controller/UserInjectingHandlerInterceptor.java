@@ -22,8 +22,7 @@ public class UserInjectingHandlerInterceptor extends HandlerInterceptorAdapter {
 
         if (modelAndView != null) {
         	
-        	Collection<GrantedAuthority> authorities = (Collection<GrantedAuthority>)
-        			  SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+        	Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
         	boolean isManager = false;
         	boolean isAdmin = false;
         	

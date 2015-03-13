@@ -37,37 +37,37 @@
                 
                 <td th:switch="${attendanceItem.attendanceItemType}" >
                   <span th:case="${T(attendance.model.AttendanceItemType).ANNUAL_LEAVE}">
-                    <i class="fa fa-clock-o"
+                    <i class="fa fa-bed"
                        data-toggle="tooltip"
                        data-placement="bottom"
                        title="Annual leave" ></i>
                   </span>
                   <span th:case="${T(attendance.model.AttendanceItemType).BUSINESS_TRAVEL}">
-                    <i class="fa fa-clock-o"
+                    <i class="fa fa-plane"
                        data-toggle="tooltip"
                        data-placement="bottom"
                        title="Business travel" ></i>
                   </span>
                   <span th:case="${T(attendance.model.AttendanceItemType).SICK}">
-                    <i class="fa fa-clock-o"
+                    <i class="fa fa-medkit"
                        data-toggle="tooltip"
                        data-placement="bottom"
                        title="Sick" ></i>
                   </span>
                   <span th:case="${T(attendance.model.AttendanceItemType).WORKING_FROM_HOME}">
-                    <i class="fa fa-clock-o"
+                    <i class="fa fa-home"
                        data-toggle="tooltip"
                        data-placement="bottom"
                        title="Working from home" ></i>
                   </span>
                   <span th:case="${T(attendance.model.AttendanceItemType).TRAINING}">
-                    <i class="fa fa-clock-o"
+                    <i class="fa fa-users"
                        data-toggle="tooltip"
                        data-placement="bottom"
                        title="Training" ></i>
                   </span>
                   <span th:case="${T(attendance.model.AttendanceItemType).MATERNITY_LEAVE}">
-                    <i class="fa fa-clock-o"
+                    <i class="fa fa-venus-mars"
                        data-toggle="tooltip"
                        data-placement="bottom"
                        title="Maternity leave" ></i>

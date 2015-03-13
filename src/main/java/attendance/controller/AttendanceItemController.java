@@ -75,7 +75,7 @@ public class AttendanceItemController {
 				
 				model.addAttribute(
 						StandardModelKeys.USER_MESSAGE,
-						"Successfully created item and sent to manager for approval");
+						"Successfully created item");
 			}
 			catch( EmployeeNotFoundException e ) {
 				model.addAttribute(

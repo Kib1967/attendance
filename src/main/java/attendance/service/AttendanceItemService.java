@@ -32,31 +32,42 @@ public class AttendanceItemService {
 	public void create(
 			String gid,
 			AttendanceItem attendanceItem) throws EmployeeNotFoundException, ManagerNotFoundException, ApprovalRequestNotSentException {
+		
 		Optional<Employee> employee = employeeService.get(gid);
 		
-		attendanceItem.setAttendanceItemStatus( AttendanceItemStatus.REQUESTED );
 		if(employee.isPresent()) {
+			
+			if(attendanceItem.getAttendanceItemType().isNeedsApproval()) {
+				attendanceItem.setAttendanceItemStatus(AttendanceItemStatus.APPROVAL_REQUESTED);
+			}
+			else {
+				attendanceItem.setAttendanceItemStatus(AttendanceItemStatus.CREATED);
+			}
 			attendanceItem.setEmployee(employee.get());
 		
 			attendanceItemRepository.save(attendanceItem);
 			
-			Employee manager = attendanceItem.getEmployee().getManager();
-			if(manager != null) {
-				try {
-					LOGGER.warn("Sending email");
-					emailService.send(manager, "Testing", "Testing");
+			if(attendanceItem.getAttendanceItemType().isNeedsApproval()) {
+				
+				Employee manager = attendanceItem.getEmployee().getManager();
+				if(manager != null) {
+					try {
+						LOGGER.info("Sending email");
+						// TODO Get Thymeleaf template and populate
+						emailService.send(manager, "Testing", "Testing");
+					}
+					catch(MessagingException e) {
+						LOGGER.error("Exception sending email", e);
+						throw new ApprovalRequestNotSentException(e);
+					}
+					catch(MailAuthenticationException e) {
+						LOGGER.error("Exception sending email", e);
+						throw new ApprovalRequestNotSentException(e);
+					}
 				}
-				catch(MessagingException e) {
-					LOGGER.error("Exception sending email", e);
-					throw new ApprovalRequestNotSentException(e);
+				else {
+					throw new ManagerNotFoundException( gid );
 				}
-				catch(MailAuthenticationException e) {
-					LOGGER.error("Exception sending email", e);
-					throw new ApprovalRequestNotSentException(e);
-				}
-			}
-			else {
-				throw new ManagerNotFoundException( gid );
 			}
 		}
 		else {

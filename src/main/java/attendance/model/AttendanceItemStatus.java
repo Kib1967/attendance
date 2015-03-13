@@ -1,7 +1,8 @@
 package attendance.model;
 
 public enum AttendanceItemStatus {
-	REQUESTED,
-	APPROVED,
-	REJECTED;
+	CREATED,
+	APPROVAL_REQUESTED,
+	APPROVAL_GRANTED,
+	APPROVAL_DENIED;
 }

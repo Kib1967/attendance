@@ -90,14 +90,14 @@ public class AttendanceItemRestControllerTest {
 		this.attendanceItems.add(attendanceItemRepository.save(
 				new AttendanceItem(
 						employee,
-						AttendanceItemStatus.REQUESTED,
+						AttendanceItemStatus.APPROVAL_REQUESTED,
 						AttendanceItemType.ANNUAL_LEAVE,
 						convert( LocalDate.of(2015, 1, 1)),
 						convert( LocalDate.of(2015, 1, 1)))));
 		this.attendanceItems.add(attendanceItemRepository.save(
 				new AttendanceItem(
 						employee,
-						AttendanceItemStatus.REQUESTED,
+						AttendanceItemStatus.APPROVAL_REQUESTED,
 						AttendanceItemType.ANNUAL_LEAVE,
 						convert( LocalDate.of(2015, 3, 5)),
 						convert( LocalDate.of(2015, 3, 10)))));

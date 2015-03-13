@@ -45,23 +45,29 @@
             <tbody>
               <tr th:each="attendanceItem : ${attendanceItems}" th:class="#{trClass_AttendanceItemStatus.__${attendanceItem.attendanceItemStatus}__}">
                 <td th:switch="${attendanceItem.attendanceItemStatus}" >
-                  <span th:case="${T(attendance.model.AttendanceItemStatus).REQUESTED}">
+                  <span th:case="${T(attendance.model.AttendanceItemStatus).CREATED}">
+                    <i class="fa fa-info"
+                       data-toggle="tooltip"
+                       data-placement="bottom"
+                       title="Created" ></i>
+                  </span>
+                  <span th:case="${T(attendance.model.AttendanceItemStatus).APPROVAL_REQUESTED}">
                     <i class="fa fa-clock-o"
                        data-toggle="tooltip"
                        data-placement="bottom"
                        title="Requested" ></i>
                   </span>
-                  <span th:case="${T(attendance.model.AttendanceItemStatus).APPROVED}">
+                  <span th:case="${T(attendance.model.AttendanceItemStatus).APPROVAL_GRANTED}">
                     <i class="fa fa-check"
                        data-toggle="tooltip"
                        data-placement="bottom"
                        title="Approved" ></i>
                   </span>
-                  <span th:case="${T(attendance.model.AttendanceItemStatus).REJECTED}">
+                  <span th:case="${T(attendance.model.AttendanceItemStatus).APPROVAL_DENIED}">
                     <i class="fa fa-close"
                        data-toggle="tooltip"
                        data-placement="bottom"
-                       title="Rejected" ></i>
+                       title="Denied" ></i>
                   </span>
                   <span th:case="*">
                     <i class="fa fa-question"

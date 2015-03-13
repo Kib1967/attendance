@@ -76,22 +76,22 @@ public class Application extends SpringBootServletInitializer {
 	        Employee mckibbin = employeeRepository.save(new Employee("mckibbin", "Andrew McKibbin", "andymckibbin@yahoo.co.uk", goldsworthy));
 	        
 			attendanceItemRepository.save(new AttendanceItem(mckibbin,
-					AttendanceItemStatus.APPROVED,
+					AttendanceItemStatus.APPROVAL_GRANTED,
 					AttendanceItemType.ANNUAL_LEAVE,
 					convert( LocalDate.of(2015, 1, 1)),
 					convert( LocalDate.of(2015, 1, 1))));
 			attendanceItemRepository.save(new AttendanceItem(mckibbin,
-					AttendanceItemStatus.APPROVED,
+					AttendanceItemStatus.APPROVAL_GRANTED,
 					AttendanceItemType.BUSINESS_TRAVEL,
 					convert( LocalDate.of(2015, 3, 5)),
 					convert( LocalDate.of(2015, 3, 10))));
 			attendanceItemRepository.save(new AttendanceItem(mckibbin,
-					AttendanceItemStatus.REQUESTED,
+					AttendanceItemStatus.APPROVAL_REQUESTED,
 					AttendanceItemType.TRAINING,
 					convert( LocalDate.of(2015, 4, 5)),
 					convert( LocalDate.of(2015, 4, 10))));
 			attendanceItemRepository.save(new AttendanceItem(mckibbin,
-					AttendanceItemStatus.REJECTED,
+					AttendanceItemStatus.CREATED,
 					AttendanceItemType.SICK,
 					convert( LocalDate.of(2015, 5, 5)),
 					convert( LocalDate.of(2015, 5, 5))));
