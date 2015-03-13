@@ -53,7 +53,7 @@ public class ManagerController {
 			Collection<AttendanceItem> attendanceItems = new ArrayList<>();
 			for(Employee subordinate : subordinates) {
 		    	Collection<AttendanceItem> pendingItems =
-		    			attendanceItemRepository.findByEmployeeAndAttendanceItemStatus(subordinate, AttendanceItemStatus.REQUESTED);
+		    			attendanceItemRepository.findByEmployeeAndAttendanceItemStatus(subordinate, AttendanceItemStatus.APPROVAL_REQUESTED);
 				attendanceItems.addAll(pendingItems);
 			}
 	
