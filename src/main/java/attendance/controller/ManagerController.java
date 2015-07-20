@@ -3,7 +3,6 @@ package attendance.controller;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,12 +40,12 @@ public class ManagerController {
 	public String listPendingApprovals( Principal principal, Model model ) {
     	
     	String gid = principal.getName();
-    	Optional<Employee> manager = employeeService.get(gid);
+    	Employee manager = employeeService.get(gid);
     	
 		LOGGER.debug("Called list pending approvals for " + gid + ", retrieved " + manager);
 		
-    	if( manager.isPresent()) {
-			Collection<Employee> subordinates = employeeService.getSubordinates(manager.get());
+    	if(manager != null) {
+			Collection<Employee> subordinates = employeeService.getSubordinates(manager);
 			
 			LOGGER.debug("Retrieved " + subordinates.size() + " subordinates for " + gid);
 			

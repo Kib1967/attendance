@@ -1,9 +1,7 @@
 package attendance;
 
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Locale;
@@ -35,7 +33,12 @@ public class Application extends SpringBootServletInitializer {
 	
 	@Bean
 	CommandLineRunner init() {
-		return (evt) -> loadData();
+		return new CommandLineRunner() {
+			@Override
+			public void run(String... args) throws Exception {
+				loadData();
+			}
+		};
 	}
 	
 	// TODO: do I really need this??
@@ -78,28 +81,32 @@ public class Application extends SpringBootServletInitializer {
 			attendanceItemRepository.save(new AttendanceItem(mckibbin,
 					AttendanceItemStatus.APPROVAL_GRANTED,
 					AttendanceItemType.ANNUAL_LEAVE,
-					convert( LocalDate.of(2015, 1, 1)),
-					convert( LocalDate.of(2015, 1, 1))));
+					convert(2015, 1, 1),
+					convert(2015, 1, 1)));
 			attendanceItemRepository.save(new AttendanceItem(mckibbin,
 					AttendanceItemStatus.APPROVAL_GRANTED,
 					AttendanceItemType.BUSINESS_TRAVEL,
-					convert( LocalDate.of(2015, 3, 5)),
-					convert( LocalDate.of(2015, 3, 10))));
+					convert(2015, 3, 5),
+					convert(2015, 3, 10)));
 			attendanceItemRepository.save(new AttendanceItem(mckibbin,
 					AttendanceItemStatus.APPROVAL_REQUESTED,
 					AttendanceItemType.TRAINING,
-					convert( LocalDate.of(2015, 4, 5)),
-					convert( LocalDate.of(2015, 4, 10))));
+					convert(2015, 4, 5),
+					convert(2015, 4, 10)));
 			attendanceItemRepository.save(new AttendanceItem(mckibbin,
 					AttendanceItemStatus.CREATED,
 					AttendanceItemType.SICK,
-					convert( LocalDate.of(2015, 5, 5)),
-					convert( LocalDate.of(2015, 5, 5))));
+					convert(2015, 5, 5),
+					convert(2015, 5, 5)));
 		}
 	}
 	
-	private Date convert( LocalDate localDate ) {
-		Instant instant = localDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant();
-		return Date.from(instant);
+	private Date convert( int year, int month, int day ) {
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.YEAR, year);
+		cal.set(Calendar.MONTH, month);
+		cal.set(Calendar.DAY_OF_MONTH, day);
+		
+		return cal.getTime();
 	}
 }

@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.security.Principal;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -37,11 +36,11 @@ public class MainController {
     public String show(Model model, Principal principal) throws IOException {
     	
     	String gid = principal.getName();
-		Optional<Employee> employee = employeeService.get(gid);
+		Employee employee = employeeService.get(gid);
 		
 		Collection<AttendanceItem> attendanceItems;
-		if( employee.isPresent()) {
-	    	attendanceItems = attendanceItemRepository.findByEmployee( employee.get() );
+		if(employee != null) {
+	    	attendanceItems = attendanceItemRepository.findByEmployee(employee);
 		}
 		else {
 			attendanceItems = Collections.<AttendanceItem>emptySet();

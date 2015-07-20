@@ -1,7 +1,5 @@
 package attendance.service;
 
-import java.util.Optional;
-
 import javax.mail.MessagingException;
 
 import org.slf4j.Logger;
@@ -33,9 +31,9 @@ public class AttendanceItemService {
 			String gid,
 			AttendanceItem attendanceItem) throws EmployeeNotFoundException, ManagerNotFoundException, ApprovalRequestNotSentException {
 		
-		Optional<Employee> employee = employeeService.get(gid);
+		Employee employee = employeeService.get(gid);
 		
-		if(employee.isPresent()) {
+		if(employee != null) {
 			
 			if(attendanceItem.getAttendanceItemType().isNeedsApproval()) {
 				attendanceItem.setAttendanceItemStatus(AttendanceItemStatus.APPROVAL_REQUESTED);
@@ -43,7 +41,7 @@ public class AttendanceItemService {
 			else {
 				attendanceItem.setAttendanceItemStatus(AttendanceItemStatus.CREATED);
 			}
-			attendanceItem.setEmployee(employee.get());
+			attendanceItem.setEmployee(employee);
 		
 			attendanceItemRepository.save(attendanceItem);
 			
