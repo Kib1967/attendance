@@ -7,9 +7,6 @@ buildscript {
     dependencies {
         // Provides tasks for running via Gradle
         classpath 'org.springframework.boot:spring-boot-gradle-plugin:1.2.1.RELEASE'
-        
-        // Provides tasks for deploying to PWS via Gradle
-        classpath 'org.cloudfoundry:cf-gradle-plugin:1.0.4'
     }
 }
 
@@ -19,7 +16,6 @@ apply plugin: 'war'
 apply plugin: 'jetty'
 apply plugin: 'eclipse-wtp'
 apply plugin: 'spring-boot'
-apply plugin: 'cloudfoundry'
 
 repositories {
     mavenCentral()
@@ -83,31 +79,3 @@ bootRun {
         jvmArgs = ['-Xdebug', '-Xrunjdwp:server=y,transport=dt_socket,address=4000,suspend=y']
     }
 }
-
-// User credentials should be in $GRADLE_USER_HOME/gradle.properties
-cloudfoundry {
-    target = 'https://api.run.pivotal.io'
-    space = 'development'
-    file = file('build/libs/attendance.war')
-    uri = 'attendance.cfapps.io'
-    memory = 2048
-    instances = 1
-    env = [
-        'SPRING_PROFILES_ACTIVE': 'prod'
-    ]
-    services {
-        'mail' {
-            label = 'SendGrid'
-            plan = 'Free Package'
-            bind = true
-        }
-        'sql' {
-            label = 'ElephantSQL'
-            plan = 'Tiny Turtle'
-            bind = true
-        }
-    }
-      
-    // Give me time to check the configuration above
-    startApp = false
- }
