@@ -5,7 +5,9 @@ import java.util.Collection;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
@@ -22,13 +24,18 @@ public class UserInjectingHandlerInterceptor extends HandlerInterceptorAdapter {
 
         if (modelAndView != null) {
         	
-        	Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
         	boolean isManager = false;
         	boolean isAdmin = false;
         	
-			for (GrantedAuthority authority : authorities) {
-			    isManager |= authority.getAuthority().equals("ROLE_MANAGER");
-			    isAdmin |= authority.getAuthority().equals("ROLE_ADMIN");
+        	SecurityContext securityContext = SecurityContextHolder.getContext();
+			Authentication authentication = securityContext.getAuthentication();
+			if(authentication != null) {
+				Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+	        	
+				for (GrantedAuthority authority : authorities) {
+				    isManager |= authority.getAuthority().equals("ROLE_MANAGER");
+				    isAdmin |= authority.getAuthority().equals("ROLE_ADMIN");
+				}
 			}
 			
 			ModelMap modelMap = modelAndView.getModelMap();
