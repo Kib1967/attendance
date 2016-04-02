@@ -45,6 +45,8 @@
                   <button type="submit" class="btn btn-sm btn-info">Log in</button>
                 </div>
               </div>
+              
+              <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                 
             </fieldset>
         </form>
