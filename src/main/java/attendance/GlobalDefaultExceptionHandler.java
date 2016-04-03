@@ -24,14 +24,11 @@ class GlobalDefaultExceptionHandler {
     @ExceptionHandler(value = Exception.class)
     public ModelAndView defaultErrorHandler(HttpServletRequest req, Exception exception) throws Exception {
         // If the exception is annotated with @ResponseStatus rethrow it and let
-        // the framework handle it - like the OrderNotFoundException example
-        // at the start of this post.
-        // AnnotationUtils is a Spring Framework utility class.
+        // the framework handle it.
         if (AnnotationUtils.findAnnotation(exception.getClass(), ResponseStatus.class) != null)
             throw exception;
         
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("springError");
+		ModelAndView modelAndView = new ModelAndView("springError");
 		
 		String stackTrace = null;
 		if( exception != null )
@@ -42,9 +39,9 @@ class GlobalDefaultExceptionHandler {
 			rootThrowable.printStackTrace(pw);
 			pw.flush();
 			stackTrace = sw.toString();
-			modelAndView.addObject("throwable", exception);
 		}
 		
+		modelAndView.addObject("throwable", (exception!=null) ? exception : "No exception present");
 		modelAndView.addObject("stackTrace", stackTrace);
 		
 		modelAndView.addObject(StandardModelKeys.USER_ERROR_MESSAGE, "Oops! An error occurred");
