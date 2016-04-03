@@ -46,14 +46,16 @@ dependencies {
     
         "org.springframework.data:spring-data-jpa:${versions.springDataJpa}",
         "org.hibernate:hibernate-entitymanager:${versions.hibernateEntityManager}",
-        "com.h2database:h2:${versions.h2}",
+        
         
         "nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:${versions.thymeleafLayoutDialect}",
         
         "jaf:activation:${versions.activation}"
     )
     
-    providedCompile "org.springframework.boot:spring-boot-starter-jetty:${versions.springBoot}"
+    providedCompile(
+        "org.springframework.boot:spring-boot-starter-jetty:${versions.springBoot}"
+    )
     
     testCompile(
         "junit:junit:${versions.junit}",
@@ -61,9 +63,14 @@ dependencies {
         "org.springframework:spring-test:${versions.springTest}"
     )
    
-    testRuntime "com.jayway.jsonpath:json-path:${versions.jsonPath}"
+    runtime(
+        "org.postgresql:postgresql:${versions.postgresql}",
+        "org.apache.commons:commons-dbcp2:${versions.commonsDbcp2}"
+    )
     
-    runtime "org.postgresql:postgresql:${versions.postgresql}"
+    testRuntime(
+        "com.jayway.jsonpath:json-path:${versions.jsonPath}"
+    )
 }
 
 // Change context path (base url). otherwise defaults to name of project
