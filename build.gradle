@@ -22,6 +22,9 @@ apply plugin: 'jetty'
 apply plugin: 'eclipse-wtp'
 apply plugin: 'spring-boot'
 
+group = 'com.mckibbin'
+version = '0.1'
+
 repositories {
     mavenCentral()
     maven { url "https://repo.spring.io/libs-release" }
@@ -71,6 +74,18 @@ dependencies {
     testRuntime(
         "com.jayway.jsonpath:json-path:${versions.jsonPath}"
     )
+}
+
+uploadArchives {
+    repositories {
+        ivy {
+            url "http://localhost:8081/artifactory/app-releases"
+            credentials {
+                username artifactoryUsername
+                password artifactoryPassword
+            }
+        }
+    }
 }
 
 // Change context path (base url). otherwise defaults to name of project
