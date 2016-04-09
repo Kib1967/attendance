@@ -79,7 +79,7 @@ dependencies {
 uploadArchives {
     repositories {
         ivy {
-            url "http://localhost:8081/artifactory/app-releases"
+            url "http://artifactory:8081/artifactory/app-releases"
             credentials {
                 username artifactoryUsername
                 password artifactoryPassword
